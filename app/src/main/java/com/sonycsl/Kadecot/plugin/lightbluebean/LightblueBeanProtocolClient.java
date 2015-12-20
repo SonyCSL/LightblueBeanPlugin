@@ -122,6 +122,7 @@ public class LightblueBeanProtocolClient extends KadecotProtocolClient {
 
     @Override
     public void onSearchEvent(WampEventMessage eventMsg) {
+        mService.beanStop();
         mService.beanStart();
     }
 
