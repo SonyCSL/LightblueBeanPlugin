@@ -27,12 +27,14 @@ import com.sonycsl.wamp.transport.ProxyPeer;
 import com.sonycsl.wamp.transport.WampWebSocketTransport;
 import com.sonycsl.wamp.transport.WampWebSocketTransport.OnWampMessageListener;
 
+/*
 import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
 import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttClient;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
+*/
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -112,6 +114,8 @@ public class LightblueBeanPluginService extends Service implements BeanControlle
     public void onDestroy() {
         super.onDestroy();
         bOnCreated = false ;
+
+        beanStop() ;
         /**
          * Send GOODBYE message to close WAMP session. <br>
          */
