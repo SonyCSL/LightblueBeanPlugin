@@ -3,6 +3,7 @@ local.properties
 build/
 app/app.iml
 app/build
-
+.gitignore
+clearUnnecessaryFiles
 
 

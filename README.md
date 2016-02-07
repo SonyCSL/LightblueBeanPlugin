@@ -1,9 +1,9 @@
 ## Kadecot機器プロトコルPlug-inのサンプル
-Provided procedure:procedure
-com.sonycsl.kadecot.lightbluebean.procedure.serial
 
-Provided topic
-com.sonycsl.kadecot.lightbluebean.topic.serial
+Kadecotでは、対応機器をPlug-inによって拡張することができます。
+このプロジェクトは、そのPlug-inのサンプルです。
+Plug-inの導入方法は単純で、Plug-inのapkファイルをKadecotと同一端末内にインストールするだけです。
 
+### Plug-inの起動
 
 Please assign unique name to each bean.
