@@ -5,10 +5,14 @@
 
 package com.sonycsl.Kadecot.plugin.lightbluebean;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 
 import com.punchthrough.bean.sdk.BeanListener;
@@ -51,6 +55,7 @@ public class LightblueBeanPluginService extends Service implements BeanControlle
 
     private static final String LOCALHOST = "localhost";
     private static final int WEBSOCKET_PORT = 41314;
+    private final static int SDKVER_MARSHMALLOW = 23;
 
     private static final String EXTRA_ACCEPTED_ORIGIN = "acceptedOrigin";
     private static final String EXTRA_ACCEPTED_TOKEN = "acceptedToken";
@@ -108,6 +113,10 @@ public class LightblueBeanPluginService extends Service implements BeanControlle
 
         bOnCreated = true ;
         beanStart();
+
+        if(Build.VERSION.SDK_INT >= SDKVER_MARSHMALLOW){
+            requestBlePermission();
+        }
     }
 
     @Override
@@ -179,6 +188,16 @@ public class LightblueBeanPluginService extends Service implements BeanControlle
     @Override
     public IBinder onBind(Intent intent) {
         return new Binder();
+    }
+
+    @TargetApi(SDKVER_MARSHMALLOW)
+    private void requestBlePermission() {
+        if(checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            // permission denied
+            Intent intent = new Intent(this, SettingsActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+        }
     }
 
 
