@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/LightBlueBeanPlugin.iml" filepath="$PROJECT_DIR$/LightBlueBeanPlugin.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lightbluebeanplugin.o.iml" filepath="$PROJECT_DIR$/lightbluebeanplugin.o.iml" />
     </modules>
   </component>
 </project>

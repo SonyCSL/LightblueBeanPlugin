@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\o\Dropbox\git\AndroidStudioKadecot\LightBlueBeanPlugin\app\libs\wamp.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="a89f82cd969c2714ef8f3fb8894fa4ec29973f30">
+        <dex dex="C:\Users\o\Dropbox\git\AndroidStudioKadecot\LightBlueBeanPlugin\app\build\intermediates\pre-dexed\debug\wamp-4538fea0c237b4bd2c04d3960870f737caa76d91.jar" />
+    </item>
+    <item
+        jar="C:\Users\o\Dropbox\git\AndroidStudioKadecot\LightBlueBeanPlugin\app\libs\okio-1.4.0.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="5b72bf48563ea8410e650de14aa33ff69a3e8c35">
+        <dex dex="C:\Users\o\Dropbox\git\AndroidStudioKadecot\LightBlueBeanPlugin\app\build\intermediates\pre-dexed\debug\okio-1.4.0-97bb484b862c98dca29600309a0824a4852d0a40.jar" />
+    </item>
+    <item
+        jar="C:\Users\o\Dropbox\git\AndroidStudioKadecot\LightBlueBeanPlugin\app\build\intermediates\exploded-aar\sdk-release\classes.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="10869a64a54d14fc8a797b5cfc89ad7f429c2a71">
+        <dex dex="C:\Users\o\Dropbox\git\AndroidStudioKadecot\LightBlueBeanPlugin\app\build\intermediates\pre-dexed\debug\classes-c7e5f46159c4d28d8a62c8b2b875bbbe88425c9e.jar" />
+    </item>
+    <item
+        jar="C:\Users\o\Dropbox\git\AndroidStudioKadecot\LightBlueBeanPlugin\app\libs\kadecotclientsdk.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="f98e84a5630ff64501b9f1034fe2ab910e65b218">
+        <dex dex="C:\Users\o\Dropbox\git\AndroidStudioKadecot\LightBlueBeanPlugin\app\build\intermediates\pre-dexed\debug\kadecotclientsdk-e4217ca82ef51bce2a2325c1b69a59ca378a61bd.jar" />
+    </item>
+    <item
+        jar="C:\Users\o\Dropbox\git\AndroidStudioKadecot\LightBlueBeanPlugin\app\libs\java_websocket.jar"
+        jumboMode="false"
+        revision="21.1.1"
+        sha1="03db0b7805cb49b9be6f7ad5b6591293483c919c">
+        <dex dex="C:\Users\o\Dropbox\git\AndroidStudioKadecot\LightBlueBeanPlugin\app\build\intermediates\pre-dexed\debug\java_websocket-2f1f131ac81d263ac246708f8bfd4906563c8bcd.jar" />
+    </item>
+
+</items>
