@@ -45,7 +45,6 @@ public class LightblueBeanProtocolClient extends KadecotProtocolClient {
 
     public static enum Procedure {
         PROCEDURE_SERIAL("serial","" ),
-        //TOPIC_SERIAL("testpublish", ""),
         ;
 
         private final String mUri;
@@ -142,23 +141,6 @@ public class LightblueBeanProtocolClient extends KadecotProtocolClient {
                 return;
             }
 
-            /*
-            if (proc == Procedure.TESTPUBLISH) {
-                mHandler.postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        sendPublish(uuid, DELAY_PUBLISH_TOPIC, new JSONArray(),
-                                new JSONObject());
-                    }
-                }, 5000);
-
-                listener.replyYield(WampMessageFactory.createYield(requestId, new JSONObject(),
-                        new JSONArray(),
-                        new JSONObject().put("result", "Do Publish after 5s"))
-                        .asYieldMessage());
-                return;
-            }*/
 
             /**
              * Return YIELD message as a result of INVOCATION.

@@ -208,69 +208,9 @@ public class LightblueBeanPluginService extends Service implements BeanControlle
     public void beanStart(){
         if( !bOnCreated ) return ;
         BeanController.findBean(this,this );
-
-        /*
-        try {
-            mqttClient = new MqttClient( "tcp://kadecotgallery.xyz:12345", "Kadecot" , null );
-            mqttClient.setCallback(new MqttCallback() {
-                @Override
-                public void connectionLost(Throwable throwable) {
-
-                }
-
-                @Override
-                public void messageArrived(String s, MqttMessage mqttMessage) throws Exception {
-                    String payload = new String(mqttMessage.getPayload(), "UTF-8");
-                    if (payload.startsWith("\"PrinterLED")) {
-                        String cmd = payload.substring("\"PrinterLED".length());
-                        BeanController.beanSendSerial("HEMSPrinter", (cmd.equals("On\"") ? "1" : "0"));
-                        System.out.println("MQTT Msg:" + payload);
-                    }
-                }
-
-                @Override
-                public void deliveryComplete(IMqttDeliveryToken iMqttDeliveryToken) {
-
-                }
-            });
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-
-        MqttConnectOptions opts = new MqttConnectOptions() ;
-        //opts.setUserName("Kadecot");
-        //opts.setPassword("Moekaden".toCharArray());
-        //                        opts.setUserName("rootsony");
-        //                        opts.setPassword("MfX843_g".toCharArray());
-        while(true) {
-            try {
-                mqttClient.connect(opts);
-            } catch (MqttException e) {
-                e.printStackTrace();
-                if (e.getCause() == null)
-                    break;
-                else
-                    System.err.println("MQTT Connection failed") ;
-            }
-        }
-
-        try {
-            mqttClient.subscribe("recv_msg");
-        } catch( MqttException e){
-        }
-
-        */
     }
     public void beanStop(){
         BeanController.disconnectBeans();
-        /*
-        try {
-            mqttClient.close();
-        } catch (MqttException e) {
-            e.printStackTrace();
-        }
-        mqttClient = null ;
-        */
     }
 
     public BeanListener onBeanFound(String beanName){
@@ -282,7 +222,6 @@ public class LightblueBeanPluginService extends Service implements BeanControlle
         @Override
         public void onConnected() {
             BeanController.BeanInfo bi = BeanController.getBeanInfo(this);
-            //bi.bean.sendSerialMessage("*");
             mClient.registerDevice(new DeviceData.Builder(LightblueBeanProtocolClient.PROTOCOL_NAME
                     , LightblueBeanProtocolClient.DEVICE_UUID_PREFIX + ":"+bi.name
                     , LightblueBeanProtocolClient.DEVICE_TYPE_BEAN,
@@ -324,19 +263,6 @@ public class LightblueBeanPluginService extends Service implements BeanControlle
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
-
-            /*
-            // Mqtt
-            try {
-
-                MqttMessage message = new MqttMessage();
-                message.setQos(1);
-                message.setPayload((bi.name + ',' + msg).getBytes());
-                mqttClient.publish("send_msg", message);
-            } catch (MqttException e) {
-                e.printStackTrace();
-            }
-            */
         }
 
         @Override
@@ -349,149 +275,3 @@ public class LightblueBeanPluginService extends Service implements BeanControlle
     }
 
 }
-
-/*
-
-                new BeanListener() {
-                    @Override
-                    public void onConnected() {
-                        BeanController.BeanInfo bi = BeanController.getBeanInfo(this);
-                        bi.bean.sendSerialMessage("*");
-                        mClient.registerDevice(new DeviceData.Builder(LightblueBeanProtocolClient.PROTOCOL_NAME
-                                ,"bean:"+bi.name
-                                , LightblueBeanProtocolClient.DEVICE_TYPE_BEAN,
-                                bi.name, true, LightblueBeanProtocolClient.LOCALHOST).build());
-                    }
-
-                    @Override
-                    public void onConnectionFailed() {
-                    }
-
-                    @Override
-                    public void onDisconnected() {
-                    }
-
-                    @Override
-                    public void onSerialMessageReceived(byte[] bytes) {
-                        JSONObject argsKw;
-
-                        try {
-                            argsKw = new JSONObject();
-                            argsKw.put("value", new String(bytes, "UTF-8"));
-                            argsKw.put("topic",  LightblueBeanProtocolClient.SERIAL_PUBLISH_TOPIC);
-                            mClient.sendPublish(
-                                    LightblueBeanProtocolClient.DEVICE_TYPE_BEAN
-                                    , LightblueBeanProtocolClient.SERIAL_PUBLISH_TOPIC
-                                    , new JSONArray()
-                                    , argsKw);
-
-                            int rrblen = 0;
-                            for (int bi = 0; bi < bytes.length; ++bi) {
-
-                                if (bytes[bi] == 'T' || bytes[bi] == 'F') {
-                                    System.out.println("Bean TF : " + new String(bytes));
-
-                                    argsKw = new JSONObject();
-                                    argsKw.put("value", (bytes[bi] == 'T'));
-                                    argsKw.put("topic", "com.sonycsl.kadecot.support.topic.human.athome");
-
-                                    mClient.sendPublish(
-                                            LightblueBeanProtocolClient.DEVICE_TYPE_BEAN
-                                            , LightblueBeanProtocolClient.SERIAL_PUBLISH_TOPIC
-                                            , new JSONArray()
-                                            , argsKw);
-
-                                }
-                            }
-
-} catch (JSONException e) {
-        e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-        }
-        }
-
-@Override
-public void onScratchValueChanged(ScratchBank scratchBank, byte[] bytes) {
-        }
-
-@Override
-public void onError(BeanError beanError) {
-        }
-        }
-        , new BeanListener() {
-@Override
-public void onConnected() {
-        BeanController.BeanInfo bi = BeanController.getBeanInfo(this);
-        bi.bean.sendSerialMessage("*");
-        mClient.registerDevice(new DeviceData.Builder(LightblueBeanProtocolClient.PROTOCOL_NAME
-        , "bean:" + bi.name
-        , LightblueBeanProtocolClient.DEVICE_TYPE_BEAN,
-        bi.name, true, LightblueBeanProtocolClient.LOCALHOST).build());
-
-        }
-
-@Override
-public void onConnectionFailed() {
-        }
-
-@Override
-public void onDisconnected() {
-        }
-
-@Override
-public void onSerialMessageReceived(byte[] bytes) {
-        // Bean bean = BeanController.getBeanInfo(this);
-
-        JSONObject argsKw;
-        try {
-        argsKw = new JSONObject();
-        argsKw.put("value", new String(bytes, "UTF-8"));
-        argsKw.put("topic",  LightblueBeanProtocolClient.SERIAL_PUBLISH_TOPIC);
-        mClient.sendPublish(
-        LightblueBeanProtocolClient.DEVICE_TYPE_BEAN
-        , LightblueBeanProtocolClient.SERIAL_PUBLISH_TOPIC
-        , new JSONArray()
-        , argsKw);
-
-
-                    ringReadBuf += new String(bytes, "UTF-8");
-                    int ni;
-                    while ((ni = ringReadBuf.indexOf('\n')) >= 0) {
-                        if (ni == 0) {
-                            ringReadBuf = ringReadBuf.substring(1);
-                            continue;
-                        }
-                        String line = ringReadBuf.substring(0, ni);
-                        ringReadBuf = ringReadBuf.substring(ni + 1);
-                        if (line.length() == 0) continue;
-                        System.out.println("Bean temp : " + line);
-
-                        argsKw = new JSONObject();
-                        argsKw.put("value", Double.parseDouble(line));
-                        argsKw.put("topic", LightblueBeanProtocolClient.SERIAL_PUBLISH_TOPIC);
-
-                        mClient.sendPublish(
-                                LightblueBeanProtocolClient.DEVICE_TYPE_BEAN
-                                , LightblueBeanProtocolClient.SERIAL_PUBLISH_TOPIC
-                                , new JSONArray()
-                                , argsKw);
-                    }
-        } catch (JSONException e) {
-        e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-        e.printStackTrace();
-        } catch (NumberFormatException e) {
-                    e.printStackTrace();
-                }
-        }
-
-@Override
-public void onScratchValueChanged(ScratchBank scratchBank, byte[] bytes) {
-        }
-
-@Override
-public void onError(BeanError beanError) {
-        }
-        }
- */
