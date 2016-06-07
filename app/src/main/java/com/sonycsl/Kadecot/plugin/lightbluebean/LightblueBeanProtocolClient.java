@@ -132,8 +132,8 @@ public class LightblueBeanProtocolClient extends KadecotProtocolClient {
         try {
             final Procedure proc = Procedure.getEnum(procedure);
             if (proc == Procedure.PROCEDURE_SERIAL) {
-                String beanName = uuid.substring(uuid.indexOf(":")+1) ;
-                BeanController.beanSendSerial(beanName,argumentsKw.getString("value"));
+                //String beanAddress = uuid.substring(uuid.indexOf(":")+1) ;
+                BeanController.beanSendSerial(uuid,argumentsKw.getString("value"));
                 listener.replyYield(WampMessageFactory.createYield(requestId, new JSONObject(),
                         new JSONArray(),
                         new JSONObject().put("value", argumentsKw.getString("value")))

@@ -19,6 +19,7 @@ public class BeanController {
     static class BeanInfo {
         Bean bean ;
         String name ;
+        String address ;
         //Context context ;
         BeanListener beanlistener ;
         int rssi ;
@@ -63,18 +64,20 @@ public class BeanController {
                 if( beanFoundCallback == null ) return ;
 
                 String beanName = bean.getDevice().getName() ;
-                if( getBeanInfo(beanName) != null ) return ;    // Already found
+                String beanAddress = bean.getDevice().getAddress() ;
+                if( getBeanInfo(beanAddress) != null ) return ;    // Already found
 
                 BeanListener bl = beanFoundCallback.onBeanFound(beanName) ;
                 if( bl == null ) return ;
 
                 BeanInfo bi = new BeanInfo() ;
                 bi.name = beanName ;
+                bi.address = beanAddress ;
                 bi.beanlistener = bl ;
                 bi.bean = bean ;
                 bi.rssi = rssi ;
                 mapBeanListenerToBeanInfo.put(bi.beanlistener , bi) ;
-                mapNameToBean.put(beanName,bi) ;
+                mapNameToBean.put(beanAddress,bi) ;
                 beans.add(bi) ;
 
                 bean.connect(BeanController.context , bl);
@@ -98,8 +101,8 @@ public class BeanController {
         beans.clear();
     }
 
-    public static void beanSendSerial(String beanName,String msg){
-        BeanInfo bi = getBeanInfo(beanName) ;
+    public static void beanSendSerial(String beanAddress,String msg){
+        BeanInfo bi = getBeanInfo(beanAddress) ;
         if( bi == null ) return ;
 
         bi.bean.sendSerialMessage(msg.getBytes());

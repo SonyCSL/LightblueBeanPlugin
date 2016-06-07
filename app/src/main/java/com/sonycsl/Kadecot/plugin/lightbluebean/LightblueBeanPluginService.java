@@ -31,14 +31,6 @@ import com.sonycsl.wamp.transport.ProxyPeer;
 import com.sonycsl.wamp.transport.WampWebSocketTransport;
 import com.sonycsl.wamp.transport.WampWebSocketTransport.OnWampMessageListener;
 
-/*
-import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
-import org.eclipse.paho.client.mqttv3.MqttCallback;
-import org.eclipse.paho.client.mqttv3.MqttClient;
-import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
-import org.eclipse.paho.client.mqttv3.MqttException;
-import org.eclipse.paho.client.mqttv3.MqttMessage;
-*/
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -203,8 +195,6 @@ public class LightblueBeanPluginService extends Service implements BeanControlle
 
       private String ringReadBuf = "" ;
 
-    //MqttClient mqttClient ;
-
     public void beanStart(){
         if( !bOnCreated ) return ;
         BeanController.findBean(this,this );
@@ -222,10 +212,11 @@ public class LightblueBeanPluginService extends Service implements BeanControlle
         @Override
         public void onConnected() {
             BeanController.BeanInfo bi = BeanController.getBeanInfo(this);
-            mClient.registerDevice(new DeviceData.Builder(LightblueBeanProtocolClient.PROTOCOL_NAME
-                    , LightblueBeanProtocolClient.DEVICE_UUID_PREFIX + ":"+bi.name
+            mClient.registerDevice(new DeviceData.Builder(
+                    LightblueBeanProtocolClient.PROTOCOL_NAME
+                    , bi.address
                     , LightblueBeanProtocolClient.DEVICE_TYPE_BEAN,
-                    bi.name, true, LightblueBeanProtocolClient.LOCALHOST).build());
+                    bi.name, true, bi.address /* LightblueBeanProtocolClient.LOCALHOST*/ ).build());
         }
 
         @Override
@@ -248,13 +239,12 @@ public class LightblueBeanPluginService extends Service implements BeanControlle
                 msg = new String(bytes, "UTF-8") ;
                 argsKw.put("value", msg);
                 argsKw.put("beanname", bi.name );
+                argsKw.put("address", bi.address );
                 argsKw.put("topic",  LightblueBeanProtocolClient.SERIAL_PUBLISH_TOPIC);
 
 
-                //System.err.println("XXX : " + bi.name + " : " + argsKw.get("value")) ;
-
                 mClient.sendPublish(
-                        LightblueBeanProtocolClient.DEVICE_UUID_PREFIX + ":"+bi.name
+                        bi.address
                         , LightblueBeanProtocolClient.SERIAL_PUBLISH_TOPIC
                         , new JSONArray()
                         , argsKw);
