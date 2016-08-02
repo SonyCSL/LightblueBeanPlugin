@@ -125,15 +125,23 @@ public class LightblueBeanProtocolClient extends KadecotProtocolClient {
         mService.beanStart();
     }
 
+    public static String getUuidFromBeanAddress(String beanAddress){
+        return "punchthrough:lbb:punchthrough:0:"+beanAddress.replace(":","_") ;
+    }
+    public static String getBeanAddressFromUuid(String uuid){
+        return uuid.split(":")[4].replace("_",":") ;
+    }
+
     @Override
     protected void onInvocation(final int requestId, String procedure, final String uuid,
             final JSONObject argumentsKw, final WampInvocationReplyListener listener) {
 
+        String beanAddress = getBeanAddressFromUuid(uuid) ;
         try {
             final Procedure proc = Procedure.getEnum(procedure);
             if (proc == Procedure.PROCEDURE_SERIAL) {
                 //String beanAddress = uuid.substring(uuid.indexOf(":")+1) ;
-                BeanController.beanSendSerial(uuid,argumentsKw.getString("value"));
+                BeanController.beanSendSerial(beanAddress,argumentsKw.getString("value"));
                 listener.replyYield(WampMessageFactory.createYield(requestId, new JSONObject(),
                         new JSONArray(),
                         new JSONObject().put("value", argumentsKw.getString("value")))
@@ -145,7 +153,7 @@ public class LightblueBeanProtocolClient extends KadecotProtocolClient {
             /**
              * Return YIELD message as a result of INVOCATION.
              */
-            JSONObject argumentKw = new JSONObject().put("targetDevice", uuid).put(
+            JSONObject argumentKw = new JSONObject().put("targetDevice", beanAddress).put(
                     "calledProcedure", procedure);
 
             listener.replyYield(WampMessageFactory.createYield(requestId, new JSONObject(),

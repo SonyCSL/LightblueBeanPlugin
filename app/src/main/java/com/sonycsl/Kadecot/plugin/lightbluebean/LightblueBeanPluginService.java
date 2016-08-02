@@ -214,9 +214,9 @@ public class LightblueBeanPluginService extends Service implements BeanControlle
             BeanController.BeanInfo bi = BeanController.getBeanInfo(this);
             mClient.registerDevice(new DeviceData.Builder(
                     LightblueBeanProtocolClient.PROTOCOL_NAME
-                    , bi.address
+                    , LightblueBeanProtocolClient.getUuidFromBeanAddress(bi.address)
                     , LightblueBeanProtocolClient.DEVICE_TYPE_BEAN,
-                    bi.name, true, bi.address /* LightblueBeanProtocolClient.LOCALHOST*/ ).build());
+                    bi.name, true, bi.address /* LightblueBeanProtocolClient.LOCALHOST*/).build());
         }
 
         @Override
@@ -244,7 +244,7 @@ public class LightblueBeanPluginService extends Service implements BeanControlle
 
 
                 mClient.sendPublish(
-                        bi.address
+                        LightblueBeanProtocolClient.getUuidFromBeanAddress(bi.address)
                         , LightblueBeanProtocolClient.SERIAL_PUBLISH_TOPIC
                         , new JSONArray()
                         , argsKw);
